@@ -45,8 +45,8 @@ namespace modeloParcial.Presentaciones
         private void CargarMateriales()
         {
             cboMateriales.DataSource = servicio.TraerMateriales();
-            cboMateriales.ValueMember = "codigo";
-            cboMateriales.DisplayMember = "nombre"; 
+            cboMateriales.ValueMember = "CodMaterial";
+            cboMateriales.DisplayMember = "NomMaterial"; 
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -78,26 +78,13 @@ namespace modeloParcial.Presentaciones
                 }
             }
 
-            DataRowView item = (DataRowView)cboMateriales.SelectedItem;
-
-            int nro = Convert.ToInt32(item.Row.ItemArray[0]);
-            string nom = item.Row.ItemArray[1].ToString();
-            int stock = Convert.ToInt32(item.Row.ItemArray[2]);
-
-            Material m = new Material(nro,nom,stock);
-
+            Material m = (Material)cboMateriales.SelectedItem;
             int cant = Convert.ToInt32(numCantidad.Value);
-
-            DetalleOrden detalle = new DetalleOrden(m,cant);
+            DetalleOrden detalle = new DetalleOrden(m, cant);
 
             nueva.AgregarDetalle(detalle);
-            dgvDetalle.Rows.Add(
-                    detalle.Material.CodMaterial,
-                    detalle.Material.NomMaterial,
-                    detalle.Material.Stock,
-                    detalle.Cantidad,
-                    "Quitar"
-                );
+
+            dgvDetalle.Rows.Add(new object[] { m.CodMaterial, m.NomMaterial, m.Stock, cant, "Quitar" });
         }
 
         private void dgvDetalle_CellContentClick(object sender, DataGridViewCellEventArgs e)

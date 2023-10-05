@@ -101,7 +101,7 @@ namespace modeloParcial.Datos.Implementaciones
             {
                 int nro = int.Parse(fila[0].ToString());
                 string nom = fila[1].ToString();
-                int stock = Convert.ToInt32(fila[2].ToString());
+                int stock = Convert.ToInt32(fila[2]);
 
                 Material p = new Material(nro, nom, stock);
 
